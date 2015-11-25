@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 import amqp.producer.ProducerService;
 
 @RestController
-@RequestMapping("/transfer")
+@RequestMapping("/service")
 public class TransferController {
 	
 	@Autowired
 	ProducerService producerService;
 	
-	@RequestMapping(value = "/send/{p1}", method = RequestMethod.GET)
+	@RequestMapping(value = "/sendMail/{p1}", method = RequestMethod.GET)
 	public String send(@PathVariable String p1){
 		producerService.sendMessage(p1);
 		return "OK";
 	}
 	
-	@RequestMapping(value = "/sendR/{p1}", method = RequestMethod.GET)
+	@RequestMapping(value = "/calculate/{p1}", method = RequestMethod.GET)
 	public String sendRecieve(@PathVariable String p1){
 		producerService.sendRecieve(p1);
 		return "OK";
