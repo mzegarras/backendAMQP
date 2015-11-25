@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+
+
+	<rabbit:connection-factory id="connectionFactory"
+		username="test" password="test" host="192.168.0.15" port="5672"  />
+
+	<rabbit:template id="rabbitTemplate"
+		connection-factory="connectionFactory" />
+
+	<rabbit:admin connection-factory="connectionFactory" />
+
+	
+	<rabbit:listener-container connection-factory="connectionFactory" prefetch="1" auto-startup="true" concurrency="10">
+		<rabbit:listener queue-names="math.producto" ref="RPCServerListener"/>
+	</rabbit:listener-container>
+
+	
+	<rabbit:listener-container connection-factory="connectionFactory" prefetch="1" auto-startup="true" concurrency="10">
+		<rabbit:listener ref="AMQPMessageListener" queue-names="mail.request"/>
+	</rabbit:listener-container>
+	
+	<!--listener-container concurrency="1" connection-factory="connectionFactory" 
+		xmlns="http://www.springframework.org/schema/rabbit">
+		<listener ref="AMQPMessageListener" queue-names=""/>
+	</listener-container-->
+
+
+
+	
+
+
+
+
+
+
+</beans>
