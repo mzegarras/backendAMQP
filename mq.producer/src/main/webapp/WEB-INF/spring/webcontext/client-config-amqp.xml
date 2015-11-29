@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:ctx="http://www.springframework.org/schema/context" xmlns:sws="http://www.springframework.org/schema/web-services"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/web-services 
+    http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+ 
+
+	<bean id="mqConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+		<property name="port" value="1414" />
+		<property name="hostName" value="127.0.0.1" />
+		<property name="channel" value="SYSTEM.DEF.SVRCONN" />
+		<property name="queueManager" value="QM1" />
+		<!--property name="CCSID" value="${mqSeriesQueueManagerCCSID}" /-->
+		<property name="transportType">
+			<util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_TP_CLIENT_MQ_TCPIP" />
+		</property>
+	</bean>
+
+	<!--bean id="mqQueue_Reader" class="com.ibm.mq.jms.MQQueue">
+		<property name="baseQueueName" value="Q1.RQ" />
+		<property name="CCSID" value="${mqSeriesQueueManagerCCSID}" />
+		<property name="targetClient">
+			<util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_CLIENT_NONJMS_MQ" />
+		</property>
+	</bean-->
+
+	<bean id="jmsQueueConnectionFactory"
+		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="targetConnectionFactory" ref="mqConnectionFactory" />
+		<property name="username" value="wasadmin" />
+		<property name="password" value="wasadmin" />
+	</bean>
+
+	<bean id="jmsDestinationResolver"
+		class="org.springframework.jms.support.destination.DynamicDestinationResolver" />
+
+	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+		<property name="destinationResolver" ref="jmsDestinationResolver" />
+		<property name="pubSubDomain" value="false" />
+		<property name="receiveTimeout" value="10000" />
+		<property name="defaultDestinationName" value="Q1.RQ"/>
+		
+	</bean>
+
+	<bean id="messageListener" class="amqp.producer.MessageService" />
+
+	<bean id="jmsContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+		<property name="destinationName" value="Q1.RQ" />
+		<property name="messageListener" ref="messageListener" />
+		<property name="receiveTimeout" value="3000" />
+		<property name="maxMessagesPerTask" value="10" />
+		<property name="autoStartup" value="true" />
+		<property name="acceptMessagesWhileStopping" value="false" />
+		<property name="maxConcurrentConsumers" value="10" />
+	</bean>
+
+
+
+</beans>
