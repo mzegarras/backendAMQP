@@ -11,7 +11,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-public class MessageService implements javax.jms.MessageListener {
+public class ConcatenateMessageService implements javax.jms.MessageListener {
 	
 
 	@Autowired
@@ -21,7 +21,7 @@ public class MessageService implements javax.jms.MessageListener {
 		// TODO Auto-generated method stub
 		
 		if(msg instanceof TextMessage) {
-			System.out.println("MessageService");
+			System.out.println(ConcatenateMessageService.class.getCanonicalName());
 			
 			try {
 				final String message = ((TextMessage) msg).getText().toUpperCase();
@@ -41,24 +41,24 @@ public class MessageService implements javax.jms.MessageListener {
 					
 					public Message createMessage(Session session) throws JMSException {
 						// TODO Auto-generated method stub
-						TextMessage textMessage = session.createTextMessage(message);
+						TextMessage textMessage = session.createTextMessage(message  + "Concatenae Data");
 						textMessage.setJMSCorrelationID(correlationID);
 						textMessage.setJMSMessageID(messageID);
-						return textMessage;
+						return textMessage ;
 						
 					}
 				});
 				
 			} catch (JMSException e) {
 				// TODO Auto-generated catch block
-				System.out.println("MessageService error");
+				System.out.println(ConcatenateMessageService.class.getCanonicalName() + "error");
 				System.err.println(e);
 			}
 			
 			
-			System.out.println("MessageService END");
+			System.out.println(ConcatenateMessageService.class.getCanonicalName() + "end");
 		}else{
-			System.out.println("null");
+			System.out.println(ConcatenateMessageService.class.getCanonicalName() + "null");
 		}
 	}
 

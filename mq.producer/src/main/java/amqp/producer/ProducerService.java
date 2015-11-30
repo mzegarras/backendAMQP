@@ -20,30 +20,69 @@ public class ProducerService {
 	@Autowired
 	JmsTemplate jmsTemplate;
 
-	public void sendMessage(final String p1) {
-		jmsTemplate.send(new MessageCreator() {
-			
+	/*public void sendMessageUpper(final String p1) {
+		jmsTemplate.send("Q1.RQ",new MessageCreator() {
 			public Message createMessage(Session arg0) throws JMSException {
 				
 				// TODO Auto-generated method stub
 				System.out.println("==============================");
-				System.out.println("ProducerService");
+				System.out.println("sendMessageUpper");
 				TextMessage message = arg0.createTextMessage(p1);
 				Queue queue = arg0.createQueue("Q1.RS");
                 message.setJMSReplyTo(queue);
                 System.out.println(p1);
                 System.out.println("setJMSReplyTo");
                 System.out.println(queue);
-                System.out.println("ProducerService END");
+                System.out.println("sendMessageUpper END");
                 System.out.println("==============================");
                 return message;
 			}
 		});
 	}
 	
+	public void sendMessageBalance(final String p1) {
+		jmsTemplate.send("Q3.RQ",new MessageCreator() {
+			public Message createMessage(Session arg0) throws JMSException {
+				
+				// TODO Auto-generated method stub
+				System.out.println("==============================");
+				System.out.println("sendMessageBalance");
+				TextMessage message = arg0.createTextMessage(p1);
+				Queue queue = arg0.createQueue("Q3.RS");
+                message.setJMSReplyTo(queue);
+                System.out.println(p1);
+                System.out.println("setJMSReplyTo");
+                System.out.println(queue);
+                System.out.println("sendMessageBalance END");
+                System.out.println("==============================");
+                return message;
+			}
+		});
+	}
+
+	public void sendMessageConcatena(final String p1) {
+		jmsTemplate.send("Q2.RQ",new MessageCreator() {
+			public Message createMessage(Session arg0) throws JMSException {
+				
+				// TODO Auto-generated method stub
+				System.out.println("==============================");
+				System.out.println("sendMessageConcatena");
+				TextMessage message = arg0.createTextMessage(p1);
+				Queue queue = arg0.createQueue("Q2.RS");
+                message.setJMSReplyTo(queue);
+                System.out.println(p1);
+                System.out.println("setJMSReplyTo");
+                System.out.println(queue);
+                System.out.println("sendMessageConcatena END");
+                System.out.println("==============================");
+                return message;
+			}
+		});
+	}*/
 	
 	
-	public String sendMessage2(final String p1) {
+	
+	public String sendMessage(final String p1) {
 		
 		System.out.println("==============================");
 		System.out.println("======sendMessage2=======================");
@@ -51,7 +90,7 @@ public class ProducerService {
 		final String currentCorrId = UUID.randomUUID().toString();
 		System.out.println("======currentCorrId:" + currentCorrId);
 		
-		jmsTemplate.send(new MessageCreator() {
+		jmsTemplate.send("Q1.RQ",new MessageCreator() {
 			
 			public Message createMessage(Session arg0) throws JMSException {
 				
@@ -71,6 +110,47 @@ public class ProducerService {
 			}
 		});
 		
+		jmsTemplate.send("Q2.RQ",new MessageCreator() {
+			
+			public Message createMessage(Session arg0) throws JMSException {
+				
+				// TODO Auto-generated method stub
+				
+				System.out.println("sendMessageConcatena");
+				TextMessage message = arg0.createTextMessage(p1);
+				Queue queue = arg0.createQueue("Q2.RS");
+                message.setJMSReplyTo(queue);
+                message.setJMSCorrelationID(currentCorrId);
+                System.out.println(p1);
+                System.out.println("setJMSReplyTo");
+                System.out.println(queue);
+                System.out.println("sendMessageConcatena END");
+                System.out.println("==============================");
+                return message;
+			}
+		});
+		
+		jmsTemplate.send("Q3.RQ",new MessageCreator() {
+			
+			public Message createMessage(Session arg0) throws JMSException {
+				
+				// TODO Auto-generated method stub
+				
+				System.out.println("sendMessageBalance");
+				TextMessage message = arg0.createTextMessage(p1);
+				Queue queue = arg0.createQueue("Q3.RS");
+                message.setJMSReplyTo(queue);
+                message.setJMSCorrelationID(currentCorrId);
+                System.out.println(p1);
+                System.out.println("setJMSReplyTo");
+                System.out.println(queue);
+                System.out.println("sendMessageBalance END");
+                System.out.println("==============================");
+                return message;
+			}
+		});
+		
+		
 		return currentCorrId;
 	}
 	
@@ -82,21 +162,29 @@ public class ProducerService {
 		System.out.println("======currentCorrId:" + currentCorrId);
 		
 		
-		Message m = jmsTemplate.receiveSelected("queue://QM1/Q1.RS", "JMSCorrelationID='" + currentCorrId + "'");
-		System.out.println(m);
+		Message m1 = jmsTemplate.receiveSelected("queue://QM1/Q1.RS", "JMSCorrelationID='" + currentCorrId + "'");
+		Message m2 = jmsTemplate.receiveSelected("queue://QM1/Q2.RS", "JMSCorrelationID='" + currentCorrId + "'");
+		Message m3 = jmsTemplate.receiveSelected("queue://QM1/Q3.RS", "JMSCorrelationID='" + currentCorrId + "'");
+		System.out.println(m1);
+		System.out.println(m2);
+		System.out.println(m3);
 		
-		if(m==null){
+		if(m1==null){
 			return null;
 		}else{
-			
-			String message;
+			String message = "nullo";
+			String message1,message2,message3;
 			try {
-				message = ((TextMessage) m).getText().toUpperCase();
+				message1 = ((TextMessage) m1).getText();
+				message2 = ((TextMessage) m2).getText();
+				message3 = ((TextMessage) m3).getText();
+				
+				message = message1 +"|" + message2 + "|" + message3;
 			} catch (JMSException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println("error");
-				message = null;
+				message1 = null;
 				
 			}
 			

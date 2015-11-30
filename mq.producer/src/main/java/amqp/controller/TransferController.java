@@ -1,5 +1,7 @@
 package amqp.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,11 @@ public class TransferController {
 	
 	@RequestMapping(value = "/sendMail/{p1}", method = RequestMethod.GET)
 	public String send(@PathVariable String p1){
-		String id = producerService.sendMessage2(p1);
+		
+		final String currentCorrId = UUID.randomUUID().toString();
+		
+		
+		String id = producerService.sendMessage(p1);
 		
 		return producerService.receiveMessage2(id);
 		

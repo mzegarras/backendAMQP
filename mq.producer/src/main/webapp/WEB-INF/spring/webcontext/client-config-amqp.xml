@@ -53,7 +53,7 @@
 		
 	</bean>
 
-	<bean id="messageListener" class="amqp.producer.MessageService" />
+	<bean id="messageListener" class="amqp.producer.UpperMessageService" />
 
 	<bean id="jmsContainer"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
@@ -66,7 +66,37 @@
 		<property name="acceptMessagesWhileStopping" value="false" />
 		<property name="maxConcurrentConsumers" value="10" />
 	</bean>
+	
+	
+	
+	<bean id="messageListener1" class="amqp.producer.ConcatenateMessageService" />
 
+	<bean id="jmsContainer1"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+		<property name="destinationName" value="Q2.RQ" />
+		<property name="messageListener" ref="messageListener1" />
+		<property name="receiveTimeout" value="3000" />
+		<property name="maxMessagesPerTask" value="10" />
+		<property name="autoStartup" value="true" />
+		<property name="acceptMessagesWhileStopping" value="false" />
+		<property name="maxConcurrentConsumers" value="10" />
+	</bean>
+	
+	
+	<bean id="messageListener2" class="amqp.producer.BalanceMessageService" />
+
+	<bean id="jmsContainer2"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+		<property name="destinationName" value="Q3.RQ" />
+		<property name="messageListener" ref="messageListener2" />
+		<property name="receiveTimeout" value="3000" />
+		<property name="maxMessagesPerTask" value="10" />
+		<property name="autoStartup" value="true" />
+		<property name="acceptMessagesWhileStopping" value="false" />
+		<property name="maxConcurrentConsumers" value="10" />
+	</bean>
 
 
 </beans>
