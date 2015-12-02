@@ -17,7 +17,14 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -116,49 +123,49 @@
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq</artifactId>
 			<version>${mq.version}</version>
-			<scope>provided</scope>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mqjms</artifactId>
 			<version>${mq.version}</version>
-			<scope>provided</scope>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.jmqi</artifactId>
 			<version>${mq.version}</version>
-			<scope>provided</scope>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>dhbcore</artifactId>
 			<version>${mq.version}</version>
-			<scope>provided</scope>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>connector</artifactId>
 			<version>${mq.version}</version>
-			<scope>provided</scope>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.headers</artifactId>
 			<version>${mq.version}</version>
-			<scope>provided</scope>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.commonservices</artifactId>
 			<version>${mq.version}</version>
-			<scope>provided</scope>
+			
 		</dependency>
 
 
