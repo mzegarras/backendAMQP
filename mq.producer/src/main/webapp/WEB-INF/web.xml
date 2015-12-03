@@ -25,8 +25,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		/WEB-INF/spring/webcontext/appServlet-context.xml,
-		/WEB-INF/spring/webcontext/client-config-*.xml
+		
+		/WEB-INF/spring/webcontext/client-config-ws-campanias.xml
 </param-value>
+<!-- /WEB-INF/spring/webcontext/client-config-*.xml, -->
 </context-param>
 
 	

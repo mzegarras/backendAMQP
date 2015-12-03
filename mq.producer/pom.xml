@@ -182,6 +182,11 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
 
 
 
@@ -198,31 +203,57 @@
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.12.3</version>
+				<version>0.13.1</version>
+
 				<executions>
 					<execution>
+						<id>schema1-generate</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
+						<configuration>
+							<schemaDirectory>
+								src/main/resources/ents/soi/core
+							</schemaDirectory>
+							<schemaIncludes>
+								<include>MessageFormat-V5.0.xsd</include>
+							</schemaIncludes>
+							<schemaLanguage>WSDL</schemaLanguage>
+							<clearOutputDir>true</clearOutputDir>
+							<generatePackage>services.core</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
 					</execution>
+
+					<execution>
+						<id>schema2-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias</schemaDirectory>
+							<schemaIncludes>
+								<include>*.xsd</include>
+							</schemaIncludes>
+							<schemaLanguage>WSDL</schemaLanguage>
+							<clearOutputDir>true</clearOutputDir>
+							<generatePackage>services.campanias</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
+					</execution>
+
+
+
+
+
 				</executions>
-				<configuration>
-					<schemaDirectory>src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias</schemaDirectory>
-					<schemaIncludes>
-						<include>*.xsd</include>
-						<!--include>*.wsdl</include-->
-					</schemaIncludes>
-					<schemaLanguage>WSDL</schemaLanguage>
-					 <clearOutputDir>false</clearOutputDir>
-					<generatePackage>campanias.wsdl</generatePackage>
-					<generateDirectory>src/main/java</generateDirectory>
-					<!--schemas>
-						<schema>
-							<url>http://wsf.cdyne.com/WeatherWS/Weather.asmx?wsdl</url>
-						</schema>
-					</schemas-->
-				</configuration>
+
+
+
+
+
 			</plugin>
+
 			<!-- end::wsdl[] -->
 		</plugins>
 
