@@ -232,9 +232,12 @@
 						</goals>
 						<configuration>
 							<schemaDirectory>src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias</schemaDirectory>
-							<schemaIncludes>
-								<include>*.xsd</include>
-							</schemaIncludes>
+							<schemas>
+								<schema>
+									<url>LeadCampanias_v1.wsdl</url>
+								</schema>
+							</schemas>
+							
 							<schemaLanguage>WSDL</schemaLanguage>
 							<clearOutputDir>true</clearOutputDir>
 							<generatePackage>services.campanias</generatePackage>
