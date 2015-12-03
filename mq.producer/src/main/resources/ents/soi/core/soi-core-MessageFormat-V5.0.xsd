@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	targetNamespace="http://ibk.com/ents/SOI/MessageFormat/V5.0"
+	xmlns:tns="http://ibk.com/ents/SOI/MessageFormat/V5.0"
+	version="1.0" xmlns:bons1="http://ibk.com/ents/SOI/CoreExtensions/V5.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://ibk.com/ents/SOI/CoreExtensions/V5.0"
+		schemaLocation="soi-core-CoreExtension-V5.0.xsd"/>
+	<xs:element name="requestHeader" type="tns:RequestHeader" />
+	<xs:element name="responseHeader" type="tns:ResponseHeader" />
+	<xs:complexType abstract="true" name="Header">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="requestId" type="bons1:RequestId" />
+			<xs:element minOccurs="1" name="identidad" type="bons1:Identidad" />
+			<xs:element minOccurs="0" name="messageContext" type="bons1:MessageContext" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestHeader">
+		<xs:complexContent>
+			<xs:extension base="tns:Header">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="userId" type="bons1:UsernameToken" />
+					<xs:element minOccurs="0" name="destination" type="bons1:Destination" />
+					<xs:element maxOccurs="0" minOccurs="0" name="classifications" type="bons1:Classifications" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ResponseHeader">
+		<xs:complexContent>
+			<xs:extension base="tns:Header">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="1" name="responseStatus" type="bons1:ResponseStatus" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

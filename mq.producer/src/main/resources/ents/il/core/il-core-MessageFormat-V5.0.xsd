@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	targetNamespace="http://ibk.com/ents/IL/MessageFormat/V5.0"
+	xmlns:tns="http://ibk.com/ents/IL/MessageFormat/V5.0"
+	version="1.0"
+	xmlns:bons1="http://ibk.com/ents/IL/CoreExtensions/V5.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:import
+		namespace="http://ibk.com/ents/IL/CoreExtensions/V5.0"
+		schemaLocation="il-core-CoreExtension-V5.0.xsd"/>
+	<xs:complexType name="Header">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="requestId" type="bons1:RequestId" />
+			<xs:element minOccurs="1" name="identidad" type="bons1:Identidad" />
+			<xs:element minOccurs="1" name="interactionData" type="tns:InteractionData" />
+			<xs:element name="requestData" type="tns:RequestData" minOccurs="1" />
+			<xs:element name="responseData" type="tns:ResponseData" minOccurs="0" />
+			<xs:element minOccurs="0" name="routingStack" type="tns:RoutingStack" />
+			<xs:element minOccurs="0" name="messageContext" type="bons1:MessageContext" />
+			<xs:element minOccurs="0" name="traceId" type="bons1:TraceId" />
+			<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestData">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="userId" type="bons1:UsernameToken" />
+			<xs:element minOccurs="1" name="destination" type="bons1:Destination" />
+			<xs:element maxOccurs="1" minOccurs="0" name="classifications" type="bons1:Classifications" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResponseData">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="providerData" type="tns:ProviderData" />
+			<xs:element maxOccurs="1" minOccurs="1" name="status" type="bons1:ResponseStatus" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProviderData">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="systemId" type="xs:string" />
+			<xs:element minOccurs="0" name="messageId" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InteractionData">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="senderSystemId" type="xs:string" />
+			<xs:element minOccurs="0" name="receiverSystemId" type="xs:string" />
+			<xs:element minOccurs="1" name="timestamp" type="xs:dateTime" />
+			<xs:element minOccurs="0" name="externalDestination" type="xs:anyURI" />
+			<xs:element minOccurs="0" name="externalMsgId" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RoutingStack">
+		<xs:sequence>
+			<xs:element name="route" type="tns:Route" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Route">
+		<xs:sequence>
+			<xs:element name="ReplyTo" type="tns:EndpointReference" minOccurs="1" maxOccurs="1" />
+			<xs:element name="FaultTo" type="tns:EndpointReference" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="EndpointReference">
+		<xs:sequence>
+			<xs:element name="address" type="xs:anyURI" />
+			<xs:element minOccurs="0" name="correlationId" type="xs:hexBinary"/>
+			<xs:element minOccurs="0" name="messageId" type="xs:hexBinary"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

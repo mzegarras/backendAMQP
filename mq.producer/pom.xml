@@ -20,7 +20,7 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -123,49 +123,49 @@
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq</artifactId>
 			<version>${mq.version}</version>
-			
+
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mqjms</artifactId>
 			<version>${mq.version}</version>
-			
+
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.jmqi</artifactId>
 			<version>${mq.version}</version>
-			
+
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>dhbcore</artifactId>
 			<version>${mq.version}</version>
-			
+
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>connector</artifactId>
 			<version>${mq.version}</version>
-			
+
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.headers</artifactId>
 			<version>${mq.version}</version>
-			
+
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.commonservices</artifactId>
 			<version>${mq.version}</version>
-			
+
 		</dependency>
 
 
@@ -175,8 +175,56 @@
 			<version>1.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+			<version>2.2.3.RELEASE</version>
+		</dependency>
+
+
+
+
 
 
 	</dependencies>
 
+	<build>
+
+
+		<plugins>
+			<!--plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+				</plugin -->
+			<!-- tag::wsdl[] -->
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.12.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<schemaDirectory>src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias</schemaDirectory>
+					<schemaIncludes>
+						<include>*.xsd</include>
+						<!--include>*.wsdl</include-->
+					</schemaIncludes>
+					<schemaLanguage>WSDL</schemaLanguage>
+					 <clearOutputDir>false</clearOutputDir>
+					<generatePackage>campanias.wsdl</generatePackage>
+					<generateDirectory>src/main/java</generateDirectory>
+					<!--schemas>
+						<schema>
+							<url>http://wsf.cdyne.com/WeatherWS/Weather.asmx?wsdl</url>
+						</schema>
+					</schemas-->
+				</configuration>
+			</plugin>
+			<!-- end::wsdl[] -->
+		</plugins>
+
+	</build>
 </project>
