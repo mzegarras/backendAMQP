@@ -12,6 +12,7 @@
 		<org.springframework-version>4.2.2.RELEASE</org.springframework-version>
 		<spring.integration.version>4.2.2.RELEASE</spring.integration.version>
 		<mq.version>7.5.0</mq.version>
+		<log4j.version>1.2.17</log4j.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -178,9 +179,14 @@
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-ws-core</artifactId>
-			<version>2.2.3.RELEASE</version>
+			<version>2.2.2.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+			<version>1.6.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -188,77 +194,78 @@
 			<version>3.1</version>
 		</dependency>
 
-
+		<!-- Log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
 
 
 	</dependencies>
 
+
+
+
 	<build>
-
-
 		<plugins>
-			<!--plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
-				</plugin -->
+
 			<!-- tag::wsdl[] -->
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.13.1</version>
-
+				<version>0.12.3</version>
 				<executions>
-					<execution>
-						<id>schema1-generate</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<schemaDirectory>
-								src/main/resources/ents/soi/core
-							</schemaDirectory>
-							<schemaIncludes>
-								<include>MessageFormat-V5.0.xsd</include>
-							</schemaIncludes>
-							<schemaLanguage>WSDL</schemaLanguage>
-							<clearOutputDir>true</clearOutputDir>
-							<generatePackage>services.core</generatePackage>
-							<generateDirectory>src/main/java</generateDirectory>
-						</configuration>
-					</execution>
+
+					<!--execution> <id>demo01</id> <goals> <goal>generate</goal> </goals> 
+						<configuration> <schemaLanguage>WSDL</schemaLanguage> <generatePackage>hello.wsdl</generatePackage> 
+						<generateDirectory>${basedir}/src/main/java</generateDirectory> <schemas> 
+						<schema> <url>http://wsf.cdyne.com/WeatherWS/Weather.asmx?wsdl</url> </schema> 
+						</schemas> </configuration> </execution -->
+
+
+
+
+
+
+
+
 
 					<execution>
-						<id>schema2-generate</id>
+						<id>demo01</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<schemaDirectory>src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias</schemaDirectory>
+							<schemaLanguage>WSDL</schemaLanguage>
+							<generatePackage>hello2.wsdl</generatePackage>
+							<generateDirectory>${basedir}/src/main/java</generateDirectory>
 							<schemas>
 								<schema>
-									<url>LeadCampanias_v1.wsdl</url>
+									<url>file://${basedir}/src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias/LeadCampanias_v1.wsdl</url>
+									<fileset>
+										<directory>${basedir}/src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias/</directory>
+										<includes>
+											<include>*.xsd</include>
+										</includes>
+									</fileset>
 								</schema>
 							</schemas>
-							
-							<schemaLanguage>WSDL</schemaLanguage>
-							<clearOutputDir>true</clearOutputDir>
-							<generatePackage>services.campanias</generatePackage>
-							<generateDirectory>src/main/java</generateDirectory>
+							<verbose>true</verbose>
 						</configuration>
 					</execution>
-
-
-
-
 
 				</executions>
 
 
 
 
-
 			</plugin>
-
 			<!-- end::wsdl[] -->
-		</plugins>
 
+
+
+		</plugins>
 	</build>
+
 </project>

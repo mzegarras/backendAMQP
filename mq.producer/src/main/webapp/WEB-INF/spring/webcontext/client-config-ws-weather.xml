@@ -22,31 +22,25 @@
 		</property>
 	</bean>
 
-	<bean id="orderServiceMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-		<property name="contextPaths">
-			<list>
-				<value>hello2.wsdl</value>
-				<value>hello3.wsdl</value>
-				
-			</list>
-		</property>
+	<bean id="weatherServiceMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="contextPath" value="hello.wsdl" />
 		
 	</bean>
 
 	
-	<bean id="campaniasServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+	<bean id="weatherClientTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
         <constructor-arg ref="messageFactory" />
-        	<property name="marshaller" ref="orderServiceMarshaller"></property>
-        	<property name="unmarshaller" ref="orderServiceMarshaller"></property>
+        	<property name="marshaller" ref="weatherServiceMarshaller"></property>
+        	<property name="unmarshaller" ref="weatherServiceMarshaller"></property>
 	        <property name="messageSender">
 	            <bean
 	                class="org.springframework.ws.transport.http.CommonsHttpMessageSender">
 	            </bean>
 	        </property>
-        	<property name="defaultUri" value="http://localhost:8080/LiveRestaurant/spring-ws/OrderService" />
+        	<!--property name="defaultUri" value="http://localhost:8080/LiveRestaurant/spring-ws/OrderService" /-->
     </bean>
 	
-	<bean id="CampaniasWebServiceClient" class="campanias.proxy.CampaniasWebServiceClient">
+	<bean id="weatherClient" class="services.client.impl.WeatherClientImpl">
         <!--constructor-arg ref="orderServiceTemplate"></constructor-arg-->
     </bean>
     

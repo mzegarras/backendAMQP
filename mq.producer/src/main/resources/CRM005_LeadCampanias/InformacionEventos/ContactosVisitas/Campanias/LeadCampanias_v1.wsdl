@@ -6,8 +6,8 @@
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
 
-	<wsdl:import location="LeadCampanias_Intf_v1.wsdl"
-		namespace="http://ibk.com/intf/InformacionEventos/ContactosVisitas/LeadCampanias/V1.0"/>
+	<!--wsdl:import location="LeadCampanias_Intf_v1.wsdl"
+		namespace="http://ibk.com/intf/InformacionEventos/ContactosVisitas/LeadCampanias/V1.0"/-->
 
 	<wsdl:binding name="LeadCampanias_HttpBinding" type="ns:LeadCampanias">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />

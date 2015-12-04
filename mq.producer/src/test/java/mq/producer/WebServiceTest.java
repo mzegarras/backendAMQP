@@ -11,12 +11,13 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import campanias.proxy.CampaniasWebService;
+import hello.wsdl.GetCityForecastByZIPResponse;
+import services.client.WeatherClient;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/test/resources/spring/applicationContextTest2.xml"})
+		"file:src/main/webapp/WEB-INF/spring/webcontext/client-config-ws-weather.xml"})
 public class WebServiceTest {
 	
 	
@@ -24,7 +25,7 @@ public class WebServiceTest {
 	
 	
 	@Autowired
-	CampaniasWebService campaniasWebService;
+	WeatherClient weatherClient;
 	
 	/**
 	 * Test setup.
@@ -34,13 +35,19 @@ public class WebServiceTest {
 		//message = "TestSpringJMSMQ test message.";
 	}
 	
-	
 	@Test
 	public void notNull(){
+		assertTrue("Not nullo",weatherClient!=null);
+	}
+	
+	@Test
+	public void test01(){
 		
-		campaniasWebService.doCall();
-		
-		assertTrue("Not nullo",campaniasWebService!=null);
+		GetCityForecastByZIPResponse response= weatherClient.getCityForecastByZip("94304");
+		System.out.println( response.getGetCityForecastByZIPResult().getResponseText());
+		System.out.println( response.getGetCityForecastByZIPResult().getCity());
+		System.out.println( response.getGetCityForecastByZIPResult().getState());
+		assertTrue("Not nullo",response!=null);
 	}
 
 }
