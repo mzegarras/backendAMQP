@@ -16,10 +16,10 @@
         				   http://www.springframework.org/schema/jee/spring-jee.xsd">
 	
 	<context:property-placeholder 
-		location="classpath*:/properties/configtest.properties" />
+		location="classpath*:/properties/mqConfig-test.properties" />
 		
 	<import
-		resource="classpath*:/spring/cliente-config-mq-test1.xml" />
+		resource="classpath*:/spring/cliente-config-mq-test0.xml" />
 		
 	<!--import
 		resource="classpath*:/spring/client-config-amqp-test_1.xml" /-->
