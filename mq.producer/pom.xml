@@ -182,18 +182,6 @@
 			<version>2.2.2.RELEASE</version>
 		</dependency>
 
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-			<version>1.6.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-		</dependency>
-
 		<!-- Log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -202,82 +190,10 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-kernel</artifactId>
-			<version>1.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-adb</artifactId>
-			<version>1.4.1</version>
-		</dependency>
-
 
 	</dependencies>
 
 
 
-
-	<build>
-		<plugins>
-
-			<!-- tag::wsdl[] -->
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.12.3</version>
-				<executions>
-
-					<!--execution> <id>demo01</id> <goals> <goal>generate</goal> </goals> 
-						<configuration> <schemaLanguage>WSDL</schemaLanguage> <generatePackage>hello.wsdl</generatePackage> 
-						<generateDirectory>${basedir}/src/main/java</generateDirectory> <schemas> 
-						<schema> <url>http://wsf.cdyne.com/WeatherWS/Weather.asmx?wsdl</url> </schema> 
-						</schemas> </configuration> </execution -->
-
-
-
-
-
-
-
-
-
-					<execution>
-						<id>demo01</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<schemaLanguage>WSDL</schemaLanguage>
-							<generatePackage>hello2.wsdl</generatePackage>
-							<generateDirectory>${basedir}/src/main/java</generateDirectory>
-							<schemas>
-								<schema>
-									<url>file://${basedir}/src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias/LeadCampanias_v1.wsdl</url>
-									<fileset>
-										<directory>${basedir}/src/main/resources/CRM005_LeadCampanias/InformacionEventos/ContactosVisitas/Campanias/</directory>
-										<includes>
-											<include>*.xsd</include>
-										</includes>
-									</fileset>
-								</schema>
-							</schemas>
-							<verbose>true</verbose>
-						</configuration>
-					</execution>
-
-				</executions>
-
-
-
-
-			</plugin>
-			<!-- end::wsdl[] -->
-
-
-
-		</plugins>
-	</build>
 
 </project>
