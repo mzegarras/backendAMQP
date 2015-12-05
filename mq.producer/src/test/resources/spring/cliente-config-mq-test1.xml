@@ -37,8 +37,8 @@
 	<bean id="jmsQueueConnectionFactory"
 		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
 		<property name="targetConnectionFactory" ref="mqConnectionFactory" />
-		<property name="username" value="wasadmin" />
-		<property name="password" value="wasadmin" />
+		<property name="username" value="${userNameMQ}" />
+		<property name="password" value="${passwordMQ}" />
 	</bean>
 
 	<bean id="jmsDestinationResolver"

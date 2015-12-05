@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:ctx="http://www.springframework.org/schema/context" xmlns:sws="http://www.springframework.org/schema/web-services"
-    xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ctx="http://www.springframework.org/schema/context"
+	xmlns:sws="http://www.springframework.org/schema/web-services"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
     http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/aop 
@@ -13,32 +14,33 @@
     http://www.springframework.org/schema/web-services 
     http://www.springframework.org/schema/web-services/web-services-2.0.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
- 
+
+
+	<context:property-placeholder
+		location="classpath*:/properties/mqConfig.properties" />
 
 	<bean id="mqConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
-		<property name="port" value="1414" />
-		<property name="hostName" value="192.168.0.18" />
-		<property name="channel" value="SYSTEM.DEF.SVRCONN" />
-		<property name="queueManager" value="QM1" />
-		<!--property name="CCSID" value="${mqSeriesQueueManagerCCSID}" /-->
+
+		<property name="port" value="${queue_port}" />
+		<property name="hostName" value="${queue_hostname}" />
+		<property name="channel" value="${channel}" />
+		<property name="queueManager" value="${queue_manager}" />
+		<!--property name="CCSID" value="${mqSeriesQueueManagerCCSID}" / -->
 		<property name="transportType">
 			<util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_TP_CLIENT_MQ_TCPIP" />
 		</property>
 	</bean>
 
-	<!--bean id="mqQueue_Reader" class="com.ibm.mq.jms.MQQueue">
-		<property name="baseQueueName" value="Q1.RQ" />
-		<property name="CCSID" value="${mqSeriesQueueManagerCCSID}" />
-		<property name="targetClient">
-			<util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_CLIENT_NONJMS_MQ" />
-		</property>
-	</bean-->
+	<!--bean id="mqQueue_Reader" class="com.ibm.mq.jms.MQQueue"> <property name="baseQueueName" 
+		value="Q1.RQ" /> <property name="CCSID" value="${mqSeriesQueueManagerCCSID}" 
+		/> <property name="targetClient"> <util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_CLIENT_NONJMS_MQ" 
+		/> </property> </bean -->
 
 	<bean id="jmsQueueConnectionFactory"
 		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
 		<property name="targetConnectionFactory" ref="mqConnectionFactory" />
-		<property name="username" value="wasadmin" />
-		<property name="password" value="wasadmin" />
+		<property name="username" value="${userNameMQ}" />
+		<property name="password" value="${passwordMQ}" />
 	</bean>
 
 	<bean id="jmsDestinationResolver"
@@ -49,8 +51,8 @@
 		<property name="destinationResolver" ref="jmsDestinationResolver" />
 		<property name="pubSubDomain" value="false" />
 		<property name="receiveTimeout" value="10000" />
-		<property name="defaultDestinationName" value="Q1.RQ"/>
-		
+		<property name="defaultDestinationName" value="Q1.RQ" />
+
 	</bean>
 
 	<bean id="messageListener" class="mq.service.consumer.UpperMessageService" />
@@ -66,9 +68,9 @@
 		<property name="acceptMessagesWhileStopping" value="false" />
 		<property name="maxConcurrentConsumers" value="10" />
 	</bean>
-	
-	
-	
+
+
+
 	<bean id="messageListener1" class="mq.service.consumer.ConcatenateMessageService" />
 
 	<bean id="jmsContainer1"
@@ -82,8 +84,8 @@
 		<property name="acceptMessagesWhileStopping" value="false" />
 		<property name="maxConcurrentConsumers" value="10" />
 	</bean>
-	
-	
+
+
 	<bean id="messageListener2" class="mq.service.consumer.BalanceMessageService" />
 
 	<bean id="jmsContainer2"
