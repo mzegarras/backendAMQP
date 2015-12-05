@@ -16,7 +16,7 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 
-	<bean id="mqConnectionFactory" class="com.ibm.mq.jms.MQTopicConnectionFactory">
+	<bean id="mqConnectionFactory1" class="com.ibm.mq.jms.MQTopicConnectionFactory">
 		<property name="port" value="${queue_port}" />
 		<property name="hostName" value="${queue_hostname}" />
 		<property name="channel" value="${channel}" />
@@ -36,23 +36,34 @@
 		/> <property name="targetClient"> <util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_CLIENT_NONJMS_MQ" 
 		/> </property> </bean -->
 
-	<bean id="jmsQueueConnectionFactory"
+	<bean id="jmsQueueConnectionFactory1"
 		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
-		<property name="targetConnectionFactory" ref="mqConnectionFactory" />
+		<property name="targetConnectionFactory" ref="mqConnectionFactory1" />
 		<property name="username" value="${userNameMQ}" />
 		<property name="password" value="${passwordMQ}" />
 	</bean>
 
-	<bean id="jmsDestinationResolver"
+	<bean id="jmsDestinationResolver1"
 		class="org.springframework.jms.support.destination.DynamicDestinationResolver" />
 
-	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
-		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
-		<property name="destinationResolver" ref="jmsDestinationResolver" />
+	<!--bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="jmsQueueConnectionFactory1" />
+		<property name="destinationResolver" ref="jmsDestinationResolver1" />
 		<property name="pubSubDomain" value="false" />
 		<property name="receiveTimeout" value="10000" />
 		<property name="defaultDestinationName" value="Q1.RQ" />
-	</bean>
+	</bean-->
+	
+	
+	 <!-- and this is the message listener container -->
+    <bean id="springJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsQueueConnectionFactory1" />
+        <property name="messageListener" ref="serviceMessageDrivenBean" />
+        <property name="destination" ref="jmsDestinationTopic" />
+    </bean>
 
+<!-- Message driven bean -->
+    <bean id="serviceMessageDrivenBean" class="mq.service.consumer.ServiceMessageDrivenBean">
+    </bean>
 
 </beans>

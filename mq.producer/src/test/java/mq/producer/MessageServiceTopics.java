@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -28,23 +29,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/test/resources/spring/applicationContextTest0.xml"})
-public class MessageServiceTest {
+		"file:src/test/resources/spring/applicationContextTest1.xml"})
+public class MessageServiceTopics {
 
 	
-	final static Logger logger = Logger.getLogger(MessageServiceTest.class);
+	final static Logger logger = Logger.getLogger(MessageServiceTopics.class);
 	
 	
 	
 	@Autowired
 	JmsTemplate jmsTemplate;
 	
-	@Value("${queue}")
-    public String queue;
+	@Autowired
+	@Qualifier("jmsDestinationTopic")
+	private Destination jmsDestination;
 
 	@Value("${queue_reply}")
     public String queue_reply;
-
 	
 	/**
 	 * Test setup.
@@ -63,11 +64,11 @@ public class MessageServiceTest {
 	
 	@Test
 	public void sendMessageSimple() {
-		jmsTemplate.send(new MessageCreator() {
+		jmsTemplate.send(jmsDestination,new MessageCreator() {
 			
 			public Message createMessage(Session session) throws JMSException {
 				// TODO Auto-generated method stub
-				TextMessage message = session.createTextMessage("sendMessage1");
+				TextMessage message = session.createTextMessage("A");
                 return message;
 			}
 		});
@@ -77,42 +78,18 @@ public class MessageServiceTest {
 	
 	
 	
-	
-	@Test
-	public void sendMessageReply() {
-		
-		jmsTemplate.send(queue,new MessageCreator() {
-			
-			public Message createMessage(Session arg0) throws JMSException {
-				
-				// TODO Auto-generated method stub
-				//String currentCorrId = UUID.randomUUID().toString();
-				//System.out.println("sendMessageConcatena");
-				TextMessage message = arg0.createTextMessage("sendMessage2_reply");
-				Queue queue = arg0.createQueue(queue_reply);
-                message.setJMSReplyTo(queue);
-                //message.setJMSCorrelationID(currentCorrId);
-                
-                return message;
-			}
-		});
-		
-		assertTrue("sendMessageReply", true);
-	}
-	
+
 	
 	@Test
 	public void sendMessageCorrelationId() {
 		
-		jmsTemplate.send(queue,new MessageCreator() {
+		jmsTemplate.send(jmsDestination,new MessageCreator() {
 			
 			public Message createMessage(Session arg0) throws JMSException {
 				
 				// TODO Auto-generated method stub
 				String currentCorrId = UUID.randomUUID().toString();
-				TextMessage message = arg0.createTextMessage("sendMessage2_reply");
-				Queue queue = arg0.createQueue(queue_reply);
-                message.setJMSReplyTo(queue);
+				TextMessage message = arg0.createTextMessage("B");
                 message.setJMSCorrelationID(currentCorrId);
                 
                 return message;
