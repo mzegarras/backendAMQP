@@ -81,22 +81,25 @@ public class MessageServiceTest {
 	@Test
 	public void sendMessageReply() {
 		
-		jmsTemplate.send(queue,new MessageCreator() {
-			
-			public Message createMessage(Session arg0) throws JMSException {
+
+			jmsTemplate.send(queue,new MessageCreator() {
 				
-				// TODO Auto-generated method stub
-				//String currentCorrId = UUID.randomUUID().toString();
-				//System.out.println("sendMessageConcatena");
-				TextMessage message = arg0.createTextMessage("sendMessage2_reply");
-				Queue queue = arg0.createQueue(queue_reply);
-                message.setJMSReplyTo(queue);
-                //message.setJMSCorrelationID(currentCorrId);
-                
-                return message;
-			}
-		});
+				public Message createMessage(Session arg0) throws JMSException {
+					
+					// TODO Auto-generated method stub
+					//String currentCorrId = UUID.randomUUID().toString();
+					//System.out.println("sendMessageConcatena");
+					TextMessage message = arg0.createTextMessage(String.format("sendMessage2_reply:%s", "test"));
+					
+					Queue queue = arg0.createQueue(queue_reply);
+	                message.setJMSReplyTo(queue);
+	                //message.setJMSCorrelationID(currentCorrId);
+	                
+	                return message;
+				}
+			});
 		
+	
 		assertTrue("sendMessageReply", true);
 	}
 	
@@ -113,6 +116,7 @@ public class MessageServiceTest {
 				TextMessage message = arg0.createTextMessage("sendMessage2_reply");
 				Queue queue = arg0.createQueue(queue_reply);
                 message.setJMSReplyTo(queue);
+                message.setJMSPriority(0);
                 message.setJMSCorrelationID(currentCorrId);
                 
                 return message;
