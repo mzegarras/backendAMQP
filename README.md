@@ -7,9 +7,11 @@ Send & Receive
 http://localhost:9080/amqp.producer/service/calculate/13
 
 ==========================
-Examples of IBM MQ added .
-Send messages to queues
-Send messages to topic
-Subscribe to topic
-Unit Test
+<ul>
+<li>Examples of IBM MQ added.<li>
+<li>Send messages to queues</li>
+<li>Send messages to topic</li>
+<li>Subscribe to topic</li>
+<li>Unit Test</li>
+</ul>
 
