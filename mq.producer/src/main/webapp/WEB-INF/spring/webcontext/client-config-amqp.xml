@@ -53,7 +53,7 @@
 		
 	</bean>
 
-	<bean id="messageListener" class="amqp.producer.UpperMessageService" />
+	<bean id="messageListener" class="mq.service.consumer.UpperMessageService" />
 
 	<bean id="jmsContainer"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
@@ -69,7 +69,7 @@
 	
 	
 	
-	<bean id="messageListener1" class="amqp.producer.ConcatenateMessageService" />
+	<bean id="messageListener1" class="mq.service.consumer.ConcatenateMessageService" />
 
 	<bean id="jmsContainer1"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
@@ -84,7 +84,7 @@
 	</bean>
 	
 	
-	<bean id="messageListener2" class="amqp.producer.BalanceMessageService" />
+	<bean id="messageListener2" class="mq.service.consumer.BalanceMessageService" />
 
 	<bean id="jmsContainer2"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">

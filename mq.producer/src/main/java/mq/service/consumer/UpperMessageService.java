@@ -1,4 +1,4 @@
-package amqp.producer;
+package mq.service.consumer;
 
 import javax.jms.JMSException;
 

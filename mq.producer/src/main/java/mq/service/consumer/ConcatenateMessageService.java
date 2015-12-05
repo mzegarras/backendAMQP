@@ -1,4 +1,4 @@
-package amqp.producer;
+package mq.service.consumer;
 
 import javax.jms.JMSException;
 
@@ -11,7 +11,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-public class BalanceMessageService implements javax.jms.MessageListener {
+public class ConcatenateMessageService implements javax.jms.MessageListener {
 	
 
 	@Autowired
@@ -21,7 +21,7 @@ public class BalanceMessageService implements javax.jms.MessageListener {
 		// TODO Auto-generated method stub
 		
 		if(msg instanceof TextMessage) {
-			System.out.println(BalanceMessageService.class.getCanonicalName());
+			System.out.println(ConcatenateMessageService.class.getCanonicalName());
 			
 			try {
 				final String message = ((TextMessage) msg).getText().toUpperCase();
@@ -41,7 +41,7 @@ public class BalanceMessageService implements javax.jms.MessageListener {
 					
 					public Message createMessage(Session session) throws JMSException {
 						// TODO Auto-generated method stub
-						TextMessage textMessage = session.createTextMessage(message + "Balance Data");
+						TextMessage textMessage = session.createTextMessage(message  + "Concatenae Data");
 						textMessage.setJMSCorrelationID(correlationID);
 						textMessage.setJMSMessageID(messageID);
 						return textMessage ;
@@ -51,14 +51,14 @@ public class BalanceMessageService implements javax.jms.MessageListener {
 				
 			} catch (JMSException e) {
 				// TODO Auto-generated catch block
-				System.out.println(BalanceMessageService.class.getCanonicalName() + "error");
+				System.out.println(ConcatenateMessageService.class.getCanonicalName() + "error");
 				System.err.println(e);
 			}
 			
 			
-			System.out.println(BalanceMessageService.class.getCanonicalName() + "end");
+			System.out.println(ConcatenateMessageService.class.getCanonicalName() + "end");
 		}else{
-			System.out.println(BalanceMessageService.class.getCanonicalName() + "null");
+			System.out.println(ConcatenateMessageService.class.getCanonicalName() + "null");
 		}
 	}
 

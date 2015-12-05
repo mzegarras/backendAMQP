@@ -1,4 +1,4 @@
-package amqp.controller;
+package mq.ws.controller;
 
 import java.util.UUID;
 
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import amqp.producer.ProducerService;
+import mq.service.sender.ProducerService;
 
 @RestController
 @RequestMapping("/service")

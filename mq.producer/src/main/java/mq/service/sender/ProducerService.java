@@ -1,4 +1,4 @@
-package amqp.producer;
+package mq.service.sender;
 
 
 import java.util.UUID;
