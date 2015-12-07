@@ -14,8 +14,8 @@ public class ServiceMessageDrivenBean implements MessageListener {
 	
 	public void onMessage(Message message) {
 		// TODO Auto-generated method stub
-		logger.info("Message Driven Bean: New Message");
-		logger.info(message.toString());
+		//logger.info("Message Driven Bean: New Message");
+		logger.info(message);
 	}
 
 }

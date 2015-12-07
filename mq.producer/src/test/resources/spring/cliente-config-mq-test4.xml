@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ctx="http://www.springframework.org/schema/context"
+	xmlns:sws="http://www.springframework.org/schema/web-services"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/web-services 
+    http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+	<bean id="mqConnectionFactory" class="com.ibm.mq.jms.MQTopicConnectionFactory">
+		<property name="port" value="${queue_port}" />
+		<property name="hostName" value="${queue_hostname}" />
+		<property name="channel" value="${channel}" />
+		<property name="queueManager" value="${queue_manager}" />
+		<!--property name="CCSID" value="${mqSeriesQueueManagerCCSID}" / -->
+		<property name="transportType">
+			<util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_TP_CLIENT_MQ_TCPIP" />
+		</property>
+	</bean>
+
+	<bean id="jmsDestinationTopic" class="com.ibm.mq.jms.MQTopic">
+		<constructor-arg value="${topic_alerts}" />
+	</bean>
+
+	<!--bean id="mqQueue_Reader" class="com.ibm.mq.jms.MQQueue"> <property name="baseQueueName" 
+		value="Q1.RQ" /> <property name="CCSID" value="${mqSeriesQueueManagerCCSID}" 
+		/> <property name="targetClient"> <util:constant static-field="com.ibm.mq.jms.JMSC.MQJMS_CLIENT_NONJMS_MQ" 
+		/> </property> </bean -->
+
+	<bean id="jmsQueueConnectionFactory"
+		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="targetConnectionFactory" ref="mqConnectionFactory" />
+		<property name="username" value="${userNameMQ}" />
+		<property name="password" value="${passwordMQ}" />
+	</bean>
+
+	<bean id="jmsDestinationResolver"
+		class="org.springframework.jms.support.destination.DynamicDestinationResolver" />
+
+
+
+	<bean id="springJmsContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+		<property name="messageListener" ref="serviceMessageDrivenBean" />
+		<property name="destination" ref="jmsDestinationTopic" />
+	</bean>
+
+	<bean id="serviceMessageDrivenBean" class="mq.service.consumer.ServiceMessageDrivenBean">
+	</bean>
+
+
+</beans>

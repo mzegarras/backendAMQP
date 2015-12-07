@@ -19,7 +19,7 @@
 		location="classpath*:/properties/mqConfig-test.properties" />
 		
 	<import
-		resource="classpath*:/spring/cliente-config-mq-test3.xml" />
+		resource="classpath*:/spring/cliente-config-mq-test4.xml" />
 		
 	<!--import
 		resource="classpath*:/spring/client-config-amqp-test_1.xml" /-->
