@@ -63,14 +63,20 @@ public class MessageServiceTest {
 	
 	@Test
 	public void sendMessageSimple() {
-		jmsTemplate.send(new MessageCreator() {
+		
+		
+		for (int i = 0; i < 100; i++) {
+			final int x = i;
+			jmsTemplate.send(new MessageCreator() {
+				
+				public Message createMessage(Session session) throws JMSException {
+					// TODO Auto-generated method stub
+					TextMessage message = session.createTextMessage(String.format("sendMessage:%s", x) );
+	                return message;
+				}
+			});
 			
-			public Message createMessage(Session session) throws JMSException {
-				// TODO Auto-generated method stub
-				TextMessage message = session.createTextMessage("sendMessage1");
-                return message;
-			}
-		});
+		}
 		
 		assertTrue("sendMessageSimple", true);
 	}
