@@ -50,6 +50,17 @@
 		<property name="receiveTimeout" value="10000" />
 		<property name="defaultDestinationName" value="${queue}" />
 	</bean>
+	
+	
+<!-- 
+    <bean id="springJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+        <property name="messageListener" ref="serviceMessageDrivenBean" />
+        <property name="destinationName" value="${queue}" />
+    </bean>
 
+    <bean id="serviceMessageDrivenBean" class="mq.service.consumer.ServiceMessageDrivenBean">
+    </bean>
+     -->
 
 </beans>

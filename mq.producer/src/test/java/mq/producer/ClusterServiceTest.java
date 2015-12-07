@@ -3,6 +3,7 @@ package mq.producer;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Random;
 import java.util.UUID;
 
 import javax.jms.Destination;
@@ -62,16 +63,21 @@ public class ClusterServiceTest {
 	
 	
 	@Test
-	public void sendMessageSimple() {
+	public void sendMessageSimple() throws InterruptedException {
+		
 		
 		
 		for (int i = 0; i < 100; i++) {
 			final int x = i;
+			
+			
 			jmsTemplate.send(new MessageCreator() {
 				
 				public Message createMessage(Session session) throws JMSException {
 					// TODO Auto-generated method stub
+					
 					TextMessage message = session.createTextMessage(String.format("%s", x) );
+					
 	                return message;
 				}
 			});
@@ -79,6 +85,7 @@ public class ClusterServiceTest {
 		}
 		
 		assertTrue("sendMessageSimple", true);
+		//Thread.sleep(1000 * 10);
 	}
 	
 	
