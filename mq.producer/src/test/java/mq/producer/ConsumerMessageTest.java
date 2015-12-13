@@ -1,9 +1,9 @@
 package mq.producer;
 
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Random;
 import java.util.UUID;
 
 import javax.jms.Destination;
@@ -16,37 +16,36 @@ import javax.jms.TextMessage;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 
+
+
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/test/resources/spring/applicationContextTest2.xml"})
-@Ignore
-public class ClusterServiceTest {
-
-	
-	final static Logger logger = Logger.getLogger(ClusterServiceTest.class);
+		"file:src/test/resources/spring/applicationContextTest5.xml"})
+public class ConsumerMessageTest {
 	
 	
-	
-	@Autowired
-	JmsTemplate jmsTemplate;
+	@Value("${queue_reply}")
+    public String queue_reply;
 	
 	@Value("${queue}")
     public String queue;
-
-	@Value("${queue_reply}")
-    public String queue_reply;
+	
+	
+	
+	final static Logger logger = Logger.getLogger(ConsumerMessageTest.class);
+	
 
 	
 	/**
@@ -55,45 +54,21 @@ public class ClusterServiceTest {
 	@Before
 	public void setUp() {
 		 BasicConfigurator.configure();
+		 logger.info(queue_reply);
+		 logger.info(queue);
 	}
-	
-	
-	@Test
-	public void jsmTemplateNull(){
-		assertNotNull(jmsTemplate);
-	}
-	
-	
-	@Test
-	public void sendMessageSimple() throws InterruptedException {
-		
-		
-		
-		for (int i = 0; i < 100; i++) {
-			final int x = i;
-			
-			
-			jmsTemplate.send(new MessageCreator() {
-				
-				public Message createMessage(Session session) throws JMSException {
-					// TODO Auto-generated method stub
-					
-					TextMessage message = session.createTextMessage(String.format("%s", x) );
-					
-	                return message;
-				}
-			});
-			
-		}
-		
-		assertTrue("sendMessageSimple", true);
-		//Thread.sleep(1000 * 10);
-	}
-	
-	
-	
 	
 
+	@Test
+	public void consumirMessage() throws InterruptedException {
+	
+		
+		assertTrue("consumirMessage", true);
+		Thread.sleep(1000 * 50);
+	}
+	
+	
+	
 	
 	
 }

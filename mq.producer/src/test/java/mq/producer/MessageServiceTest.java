@@ -3,6 +3,8 @@ package mq.producer;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.jms.Destination;
@@ -15,6 +17,7 @@ import javax.jms.TextMessage;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +65,7 @@ public class MessageServiceTest {
 	
 	
 	@Test
+	@Ignore
 	public void sendMessageSimple() {
 		
 		
@@ -85,6 +89,7 @@ public class MessageServiceTest {
 	
 	
 	@Test
+	@Ignore
 	public void sendMessageReply() {
 		
 
@@ -119,7 +124,7 @@ public class MessageServiceTest {
 				
 				// TODO Auto-generated method stub
 				String currentCorrId = UUID.randomUUID().toString();
-				TextMessage message = arg0.createTextMessage("sendMessage2_reply");
+				TextMessage message = arg0.createTextMessage(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
 				Queue queue = arg0.createQueue(queue_reply);
                 message.setJMSReplyTo(queue);
                 message.setJMSPriority(0);
