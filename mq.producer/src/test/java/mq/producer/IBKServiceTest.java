@@ -31,30 +31,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/test/resources/spring/applicationContextTest0.xml"})
-public class MessageServiceTest {
+		"file:src/test/resources/spring/applicationContextTest6.xml"})
+public class IBKServiceTest {
 
 	
-	final static Logger logger = Logger.getLogger(MessageServiceTest.class);
+	final static Logger logger = Logger.getLogger(IBKServiceTest.class);
 	
 	
 	
 	@Autowired
 	JmsTemplate jmsTemplate;
 	
-	@Value("${queue}")
-    public String queue;
-
-	@Value("${queue_reply}")
-    public String queue_reply;
-
+	@Value("${queue1_req}")
+    public String req1;
 	
+	@Value("${queue1_res}")
+    public String res1;
 	/**
 	 * Test setup.
 	 */
 	@Before
 	public void setUp() {
 		 BasicConfigurator.configure();
+		 logger.debug(String.format("req1:%s", req1));
+		 logger.debug(String.format("res1:%s", res1));
 	}
 	
 	
@@ -68,13 +68,13 @@ public class MessageServiceTest {
 	public void sendMessageSimple() {
 		
 		
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			final int x = i;
 			jmsTemplate.send(new MessageCreator() {
 				
 				public Message createMessage(Session session) throws JMSException {
 					// TODO Auto-generated method stub
-					TextMessage message = session.createTextMessage(String.format("sendMessage:%s", x) );
+					TextMessage message = session.createTextMessage(String.format("sendMessage Charly Chon:%s", x) );
 	                return message;
 				}
 			});
@@ -84,10 +84,17 @@ public class MessageServiceTest {
 		assertTrue("sendMessageSimple", true);
 	}
 	
-	
-	
-	
 	@Test
+	public void consumirMessage() throws InterruptedException {
+		
+		assertTrue("consumirMessage", true);
+		Thread.sleep(1000 * 10);
+	}
+	
+	
+	
+	
+	/*@Test
 	@Ignore
 	public void sendMessageReply() {
 		
@@ -135,7 +142,7 @@ public class MessageServiceTest {
 		});
 		
 		assertTrue("sendMessageCorrelationId", true);
-	}
+	}*/
 	
 	
 	
