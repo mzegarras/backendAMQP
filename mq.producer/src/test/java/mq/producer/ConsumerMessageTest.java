@@ -16,6 +16,7 @@ import javax.jms.TextMessage;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class ConsumerMessageTest {
 	
 		
 		assertTrue("consumirMessage", true);
-		Thread.sleep(1000 * 50);
+		Thread.sleep(1000 * 500);
 	}
 	
 	

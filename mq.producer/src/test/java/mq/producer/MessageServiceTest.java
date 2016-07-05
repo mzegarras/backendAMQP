@@ -27,120 +27,104 @@ import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-		"file:src/test/resources/spring/applicationContextTest0.xml"})
+@ContextConfiguration(locations = { "file:src/test/resources/spring/applicationContextTest0.xml" })
 public class MessageServiceTest {
 
-	
 	final static Logger logger = Logger.getLogger(MessageServiceTest.class);
-	
-	
-	
+
 	@Autowired
 	JmsTemplate jmsTemplate;
-	
+
 	@Value("${queue}")
-    public String queue;
+	public String queue;
 
 	@Value("${queue_reply}")
-    public String queue_reply;
+	public String queue_reply;
 
-	
 	/**
 	 * Test setup.
 	 */
 	@Before
 	public void setUp() {
-		 BasicConfigurator.configure();
+		BasicConfigurator.configure();
 	}
-	
-	
+
 	@Test
-	public void jsmTemplateNull(){
+	public void jsmTemplateNull() {
 		assertNotNull(jmsTemplate);
 	}
-	
-	
-	@Test
-	public void sendMessageSimple() {
-		
-		
-		for (int i = 0; i < 20; i++) {
-			final int x = i;
-			jmsTemplate.send(new MessageCreator() {
-				
-				public Message createMessage(Session session) throws JMSException {
-					// TODO Auto-generated method stub
-					TextMessage message = session.createTextMessage(String.format("sendMessage:%s", x) );
-	                return message;
-				}
-			});
-			
-		}
-		
-		assertTrue("sendMessageSimple", true);
-	}
-	
-	
-	
-	
+
 	@Test
 	@Ignore
-	public void sendMessageReply() {
-		
+	public void sendMessageSimple() {
 
-			jmsTemplate.send(queue,new MessageCreator() {
-				
-				public Message createMessage(Session arg0) throws JMSException {
-					
+		for (int i = 0; i < 100; i++) {
+			final int x = i;
+			jmsTemplate.send(new MessageCreator() {
+
+				public Message createMessage(Session session) throws JMSException {
 					// TODO Auto-generated method stub
-					//String currentCorrId = UUID.randomUUID().toString();
-					//System.out.println("sendMessageConcatena");
-					TextMessage message = arg0.createTextMessage(String.format("sendMessage2_reply:%s", "test"));
-					
-					Queue queue = arg0.createQueue(queue_reply);
-	                message.setJMSReplyTo(queue);
-	                //message.setJMSCorrelationID(currentCorrId);
-	                
-	                return message;
+					TextMessage message = session.createTextMessage(String.format("sendMessage:%s", x));
+					return message;
 				}
 			});
-		
-	
+
+		}
+
+		assertTrue("sendMessageSimple", true);
+	}
+
+	@Test
+	public void sendMessageReply() {
+
+		for (int i = 0; i < 1000; i++) {
+			final int x = i;
+
+			jmsTemplate.send(queue, new MessageCreator() {
+
+				public Message createMessage(Session arg0) throws JMSException {
+
+					// TODO Auto-generated method stub
+					// String currentCorrId = UUID.randomUUID().toString();
+					// System.out.println("sendMessageConcatena");
+					TextMessage message = arg0.createTextMessage(String.format("sendMessage2_reply:%s", x));
+
+					Queue queue = arg0.createQueue(queue_reply);
+					message.setJMSReplyTo(queue);
+					// message.setJMSCorrelationID(currentCorrId);
+
+					return message;
+				}
+			});
+
+		}
+
 		assertTrue("sendMessageReply", true);
 	}
-	
-	
+
 	@Test
 	@Ignore
 	public void sendMessageCorrelationId() {
-		
-		jmsTemplate.send(queue,new MessageCreator() {
-			
+
+		jmsTemplate.send(queue, new MessageCreator() {
+
 			public Message createMessage(Session arg0) throws JMSException {
-				
+
 				// TODO Auto-generated method stub
 				String currentCorrId = UUID.randomUUID().toString();
-				TextMessage message = arg0.createTextMessage(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
+				TextMessage message = arg0
+						.createTextMessage(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
 				Queue queue = arg0.createQueue(queue_reply);
-                message.setJMSReplyTo(queue);
-                message.setJMSPriority(0);
-                message.setJMSCorrelationID(currentCorrId);
-                
-                return message;
+				message.setJMSReplyTo(queue);
+				message.setJMSPriority(0);
+				message.setJMSCorrelationID(currentCorrId);
+
+				return message;
 			}
 		});
-		
+
 		assertTrue("sendMessageCorrelationId", true);
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

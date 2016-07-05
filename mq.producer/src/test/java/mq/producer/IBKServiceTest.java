@@ -32,6 +32,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"file:src/test/resources/spring/applicationContextTest6.xml"})
+
+@Ignore
 public class IBKServiceTest {
 
 	

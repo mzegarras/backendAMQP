@@ -47,7 +47,7 @@
 		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
 		<property name="destinationResolver" ref="jmsDestinationResolver" />
 		<property name="pubSubDomain" value="false" />
-		<property name="receiveTimeout" value="10000" />
+		<property name="receiveTimeout" value="50000" />
 		<property name="defaultDestinationName" value="${queue}" />
 	</bean>
 	

@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"file:src/test/resources/spring/applicationContextTest2.xml"})
-@Ignore
+
 public class ClusterServiceTest {
 
 	
@@ -65,6 +65,15 @@ public class ClusterServiceTest {
 	
 	
 	@Test
+	public void readMessageSimple() throws InterruptedException {
+		//for (int i = 0; i < 100; i++) {
+		Message message = jmsTemplate.receive();
+			System.out.println(message.toString());
+		//}
+	}
+	
+	@Ignore
+	@Test
 	public void sendMessageSimple() throws InterruptedException {
 		
 		
@@ -80,6 +89,9 @@ public class ClusterServiceTest {
 					
 					TextMessage message = session.createTextMessage(String.format("%s", x) );
 					
+					Queue queue = session.createQueue("Q4.RS");
+	                message.setJMSReplyTo(queue);
+	                
 	                return message;
 				}
 			});

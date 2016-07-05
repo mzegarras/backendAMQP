@@ -51,7 +51,7 @@
 		<property name="defaultDestinationName" value="${queue}" />
 		<property name="deliveryPersistent" value="false" />
 		<property name="deliveryMode" value="1" />
-		<property name="timeToLive" value="10000" />
+		<!--property name="timeToLive" value="10000" /-->
 		<property name="explicitQosEnabled" value="true" />
 	</bean>
 
