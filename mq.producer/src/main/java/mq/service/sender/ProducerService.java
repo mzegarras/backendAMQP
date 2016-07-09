@@ -165,9 +165,7 @@ public class ProducerService {
 		Message m1 = jmsTemplate.receiveSelected("queue://QM1/Q1.RS", "JMSCorrelationID='" + currentCorrId + "'");
 		Message m2 = jmsTemplate.receiveSelected("queue://QM1/Q2.RS", "JMSCorrelationID='" + currentCorrId + "'");
 		Message m3 = jmsTemplate.receiveSelected("queue://QM1/Q3.RS", "JMSCorrelationID='" + currentCorrId + "'");
-		System.out.println(m1);
-		System.out.println(m2);
-		System.out.println(m3);
+		
 		
 		if(m1==null){
 			return null;

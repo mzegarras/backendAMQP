@@ -24,7 +24,7 @@ public class ConcatenateMessageService implements javax.jms.MessageListener {
 			System.out.println(ConcatenateMessageService.class.getCanonicalName());
 			
 			try {
-				final String message = ((TextMessage) msg).getText().toUpperCase();
+				final String message = ((TextMessage) msg).getText() + "concatenate";
 				final String correlationID = msg.getJMSCorrelationID();
 				final String messageID = msg.getJMSMessageID();
 				

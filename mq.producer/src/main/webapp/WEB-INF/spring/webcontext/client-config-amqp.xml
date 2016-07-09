@@ -17,7 +17,7 @@
 
 	<bean id="mqConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
 		<property name="port" value="1414" />
-		<property name="hostName" value="192.168.0.17" />
+		<property name="hostName" value="127.0.0.1" />
 		<property name="channel" value="SYSTEM.DEF.SVRCONN" />
 		<property name="queueManager" value="QM1" />
 		<!--property name="CCSID" value="${mqSeriesQueueManagerCCSID}" /-->

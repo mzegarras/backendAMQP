@@ -8,11 +8,15 @@
 	<name>jmsDemo Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
+		<java.version>1.7</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.amqp.version>1.0.0.RELEASE</spring.amqp.version>
 		<org.springframework-version>4.2.2.RELEASE</org.springframework-version>
 		<spring.integration.version>4.2.2.RELEASE</spring.integration.version>
 		<mq.version>7.5.0</mq.version>
 		<log4j.version>1.2.17</log4j.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -20,6 +24,13 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -120,55 +131,21 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.ibm.mq</groupId>
-			<artifactId>com.ibm.mq</artifactId>
-			<version>${mq.version}</version>
 
-		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mqjms</artifactId>
 			<version>${mq.version}</version>
-
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.jmqi</artifactId>
 			<version>${mq.version}</version>
-
+			<scope>provided</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>com.ibm.mq</groupId>
-			<artifactId>dhbcore</artifactId>
-			<version>${mq.version}</version>
-
-		</dependency>
-
-		<dependency>
-			<groupId>com.ibm.mq</groupId>
-			<artifactId>connector</artifactId>
-			<version>${mq.version}</version>
-
-		</dependency>
-
-		<dependency>
-			<groupId>com.ibm.mq</groupId>
-			<artifactId>com.ibm.mq.headers</artifactId>
-			<version>${mq.version}</version>
-
-		</dependency>
-
-		<dependency>
-			<groupId>com.ibm.mq</groupId>
-			<artifactId>com.ibm.mq.commonservices</artifactId>
-			<version>${mq.version}</version>
-
-		</dependency>
-
 
 		<dependency>
 			<groupId>javax.jms</groupId>
@@ -190,8 +167,110 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.7.5</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.7.5</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.7.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.21</version>
+
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<!-- Logging dependencies -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>apache-log4j-extras</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+
 
 	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+
+
+		</plugins>
+
+
+
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>${project.basedir}/src/test/java/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+
+	</build>
 
 
 

@@ -24,7 +24,7 @@ public class BalanceMessageService implements javax.jms.MessageListener {
 			System.out.println(BalanceMessageService.class.getCanonicalName());
 			
 			try {
-				final String message = ((TextMessage) msg).getText().toUpperCase();
+				final String message = ((TextMessage) msg).getText() + "balance";
 				final String correlationID = msg.getJMSCorrelationID();
 				final String messageID = msg.getJMSMessageID();
 				

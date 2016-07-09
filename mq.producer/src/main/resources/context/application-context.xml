@@ -11,23 +11,25 @@
 	<!-- Scans within the base package of the application for @Components to 
 		configure as beans -->
 	<!-- @Controller, @Service, @Configuration, etc. -->
-	<context:component-scan base-package="amqp.controller,amqp.producer" />
+	<context:component-scan base-package="mq.ws,mq.service" />
 
 	<!-- Enables the Spring MVC @Controller programming model -->
+
 	<mvc:annotation-driven enable-matrix-variables="true">
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 
+				<property name="objectMapper">
+					<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+						<property name="serializationInclusion" value="NON_NULL" />
+					</bean>
+				</property>
+			</bean>
 
-
-
-
+		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-
-	
-
-
-
-
-
+	<import resource="classpath:context/mq-config.xml" />
 
 </beans>
